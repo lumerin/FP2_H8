@@ -10,17 +10,98 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      // User 1 - N Photos
+      User.hasMany(models.Photo, { foreignKey: "userid" });
     }
   };
   User.init({
-    full_name: DataTypes.STRING,
-    email: DataTypes.STRING,
-    username: DataTypes.STRING,
-    password: DataTypes.STRING,
-    profile_image_url: DataTypes.TEXT,
-    age: DataTypes.INTEGER,
-    phone_number: DataTypes.STRING
+    full_name: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Full name is required"
+        }
+      }
+    },
+    email: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Email is required"
+        },
+        isEmail: {
+          args: true,
+          msg: "Email address is invalid"
+        }
+      },
+      unique: {
+        args: true,
+        msg: "This email has been used, try another one"
+      },
+    },
+    username: {
+      type: DataTypes.STRING,
+      unique: {
+        args: true,
+        msg: "This username has been used, try another one"
+      },
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Username is required"
+        }
+      }
+    },
+    password: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Password is required"
+        }
+      }
+    },
+    profile_image_url: {
+      type: DataTypes.TEXT,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Image url is required"
+        },
+        isUrl: {
+          args: true,
+          msg: "Image url is invalid"
+        }
+      }
+    },
+    age: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Age is required"
+        },
+        isNumeric: {
+          args: true,
+          msg: "Age must be a number"
+        }
+      }
+    },
+    phone_number: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Phone number is required"
+        },
+        isNumeric: {
+          args: true,
+          msg: "Phone number must be a number"
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'User',
