@@ -11,15 +11,47 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // User 1 - N Photos
-      Photo.belongsTo(models.User, { foreignKey: "userid" });
+      // Photos N - 1 User
+      Photo.belongsTo(models.User, { foreignKey: "userid"});
+      // Photo 1 - N Comments
+      Photo.hasMany(models.Comment, { foreignKey: "photoid" });
     }
   };
   Photo.init({
-    title: DataTypes.STRING,
-    caption: DataTypes.TEXT,
-    poster_image_url: DataTypes.TEXT,
-    userid: DataTypes.INTEGER
+    title:  {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Title is required"
+        }
+      }
+    },
+    caption: {
+      type: DataTypes.TEXT,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Caption is required"
+        }
+      }
+    },
+    poster_image_url: {
+      type: DataTypes.TEXT,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "poster image url is required"
+        },
+        isUrl: {
+          args: true,
+          msg: "Poster image url is invalid"
+        }
+      }
+    },
+    userid: {
+      type: DataTypes.INTEGER
+    }
   }, {
     sequelize,
     modelName: 'Photo',

@@ -72,7 +72,7 @@ class userController {
 				}
 			})
 			.catch(err => {
-                res.status(401).json(err)
+                res.status(401).json(err);
             });
 	}
 
@@ -124,14 +124,14 @@ class userController {
         })
         .then(result => {
             if (!result) {
-                res.status(500).json({ message: "Account does not exist" })
+                res.status(500).json({ message: "Account does not exist" });
             } else {
                 res.status(200).json({ message: "Your account has been successfully deleted" });
             }
 
         })
         .catch(err => {
-            res.status(500).json(err)
+            res.status(500).json(err);
         });
     }
 

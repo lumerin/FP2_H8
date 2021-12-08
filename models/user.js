@@ -12,6 +12,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // User 1 - N Photos
       User.hasMany(models.Photo, { foreignKey: "userid" });
+      // User 1 - N Comments
+      User.hasMany(models.Comment, { foreignKey: "userid" });
     }
   };
   User.init({

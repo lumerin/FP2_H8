@@ -11,8 +11,9 @@ route.get("/", (req, res) => {
 	});
 });
 
-route.post("/users/register", userController.register)
-route.post("/users/login", userController.login)
+// user
+route.post("/users/register", userController.register);
+route.post("/users/login", userController.login);
 
 // authentication middleware
 route.use(authentication);
@@ -20,11 +21,18 @@ route.use(authentication);
 // user authorization middleware
 route.use("/users/:id", userAuthorization);
 
-route.put("/users/:id", userController.update)
-route.delete("/users/:id", userController.delete)
+route.put("/users/:id", userController.update);
+route.delete("/users/:id", userController.delete);
 
-// route.post("/api/v1/login", userController.login);
-// route.post("/api/v1/register", userController.register);
+// photos
+route.post("/photos", photoController.create);
+route.get("/photos", photoController.getAll);
+
+// photos authorization middleware
+route.use("/photos/:id", photoAuthorization);
+
+route.put("/photos/:id", photoController.update);
+route.delete("/photos/:id", photoController.delete);
 
 module.exports = route
 
