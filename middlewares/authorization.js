@@ -1,4 +1,4 @@
-const { User, Photo, SocialMedia } = require("../models");
+const { User, Photo, SocialMedia, Comment } = require("../models");
  
 function userAuthorization(req, res, next) {
   const userId = req.params.id;
@@ -91,8 +91,39 @@ function sosialMediaAuthorization(req, res, next) {
     })
 }
  
+function commentAuthorization(req, res, next) {
+  const comentId = req.params.id;
+  const authenticationUser = res.locals.user;
+ 
+  Comment.findOne({
+    where: {
+      id: comentId
+    }
+  })
+    .then(comment => {
+      if (!comment) {
+        return res.status(404).json({
+          name: "Data not found",
+          message: `Sosial media with id "${id}" not found`
+        });
+      }
+      if (comment.userid === authenticationUser.id) {
+        return next();
+      } else {
+        return res.status(403).json({
+          name: "Authorization error",
+          message: `User with email "${authenticationUser.email}" does not have permission to access User with email "${authenticationUser.email}"`
+        });
+      }
+    })
+    .catch(err => {
+      return res.status(500).json(err);
+    })
+}
+ 
 module.exports = {
   userAuthorization,
   photoAuthorization,
-  sosialMediaAuthorization
+  sosialMediaAuthorization,
+  commentAuthorization
 }
