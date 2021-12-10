@@ -24,25 +24,13 @@ class SosialMediaController {
     SocialMedia.belongsTo(User, { foreignKey: 'userid' })
     User.hasMany(SocialMedia, { foreignKey: 'id' })
     SocialMedia.findAll({
-      include: [User],
+      include: [{
+        model: User,
+        attributes: ['id', 'username', 'profile_image_url']
+      }],
     }).then(result => {
-      var newData = result.map(r => {
-        return {
-          "id": r.id,
-          "name": r.name,
-          "social_media_url": r.social_media_url,
-          "userid": r.userid,
-          "createdAt": r.createdAt,
-          "updatedAt": r.updatedAt,
-          "User": {
-            "id": r.User.id,
-            "username": r.User.username,
-            "profile_image_url": r.User.profile_image_url
-          }
-        }
-      })
       res.status(201).json({
-        social_media: newData
+        social_media: result
       });
     }).catch((err => {
       res.status(500).json({
