@@ -1,45 +1,37 @@
 const { User } = require("../models");
 const { generateToken } = require("../helpers/jwt");
-const { hashPassword, comparePassword } = require("../helpers/bcrypt");
+const { comparePassword } = require("../helpers/bcrypt");
 
 class userController {
     static register(req, res) {
-		let hash = hashPassword(req.body.password);
 		let input = {
 			email: req.body.email,
             full_name: req.body.full_name,
             username: req.body.username,
-			password: hash,
+			password: req.body.password,
             profile_image_url: req.body.profile_image_url,
 			age: req.body.age,
             phone_number: req.body.phone_number
 		};
 
-		User.findAll()
-            .then(data => {
-                    User.create(input)
-                    .then(result => {
-                        res.status(201).json({
-                            user: {
-                                email: result.email,
-                                full_name: result.full_name,
-                                username: result.username,
-                                profile_image_url: result.profile_image_url,
-                                age: result.age,
-                                phone_number: result.phone_number
-                            } 
-                        });
-                    })
-                    .catch((err => {
-                        res.status(500).json({
-                            message: err.errors[0].message
-                        });
-                    }));
-                
-		    })
-            .catch(err => {
-                res.status(500).json(err);
+        User.create(input)
+        .then(result => {
+            res.status(201).json({
+                user: {
+                    email: result.email,
+                    full_name: result.full_name,
+                    username: result.username,
+                    profile_image_url: result.profile_image_url,
+                    age: result.age,
+                    phone_number: result.phone_number
+                } 
             });
+        })
+        .catch((err => {
+            res.status(500).json({
+                message: err.errors[0].message
+            });
+        }));
     }
 
 

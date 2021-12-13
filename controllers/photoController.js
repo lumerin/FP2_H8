@@ -12,7 +12,13 @@ class photoController {
 		};
         Photo.create(input)
         .then(result => {
-            res.status(201).json(result);
+            res.status(201).json({
+                id: result.id,
+                poster_image_url: result.poster_image_url,
+                title: result.title,
+                caption: result.caption,
+                "UserId": result.userid
+            });
         })
         .catch(err => {
             res.status(500).json({
@@ -47,9 +53,15 @@ class photoController {
             ]
         })
         .then(result => {
-            res.status(200).json({
-                photos: result
-            });
+            if (result == "") {
+                res.status(200).json({
+                    Message: "No photos found"
+                })
+            } else {
+                res.status(200).json({
+                    photos: result
+                });
+            }
         })
         .catch(err => {
             res.status(500).json(err);
@@ -73,7 +85,9 @@ class photoController {
             }
         )
         .then(result => {
-            res.status(200).json(result);
+            res.status(200).json({
+                photo: result[1][0]
+            });
         })
         .catch(err => {
             res.status(500).json({
@@ -90,11 +104,7 @@ class photoController {
             }
         })
         .then(result => {
-            if (!result) {
-                res.status(500).json({ message: "Photo does not exist" });
-            } else {
-                res.status(200).json({ message: "Your photo has been successfully deleted" });
-            }
+            res.status(200).json({ message: "Your photo has been successfully deleted" });
         })
         .catch(err => {
             res.status(500).json(err);

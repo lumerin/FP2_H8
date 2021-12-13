@@ -19,7 +19,15 @@ module.exports = (sequelize, DataTypes) => {
   Comment.init({
     userid: DataTypes.INTEGER,
     photoid: DataTypes.INTEGER,
-    comment: DataTypes.TEXT
+    comment: {
+      type: DataTypes.TEXT,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Comment is required"
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'Comment',

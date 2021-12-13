@@ -14,8 +14,28 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   SocialMedia.init({
-    name: DataTypes.STRING,
-    social_media_url: DataTypes.TEXT,
+    name: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Name is required"
+        }
+      }
+    },
+    social_media_url: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Social media url is required"
+        },
+        isUrl: {
+          args: true,
+          msg: "Social media url is invalid" 
+        }
+      }
+    },
     userid: DataTypes.INTEGER
   }, {
     sequelize,

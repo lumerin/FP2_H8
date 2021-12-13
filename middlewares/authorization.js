@@ -10,7 +10,6 @@ function userAuthorization(req, res, next) {
     }
   })
     .then(user => {
-      console.log(user)
       if (!user) {
         return res.status(404).json({
           name: "Data not found",
@@ -22,7 +21,7 @@ function userAuthorization(req, res, next) {
       } else {
         return res.status(403).json({
           name: "Authorization error",
-          message: `User with email "${authenticationUser.email}" does not have permission to access User with email "${authenticationUser.email}"`
+          message: `User with email "${authenticationUser.email}" does not have permission to access User with email "${user.email}"`
         });
       }
     })
@@ -44,7 +43,7 @@ function photoAuthorization(req, res, next) {
       if (!photo) {
         return res.status(404).json({
           name: "Data not found",
-          message: `Photo with id "${id}" not found`
+          message: `Photo with id "${photoId}" not found`
         });
       }
       if (photo.userid === authenticationUser.id) {
@@ -52,7 +51,7 @@ function photoAuthorization(req, res, next) {
       } else {
         return res.status(403).json({
           name: "Authorization error",
-          message: `User with email "${authenticationUser.email}" does not have permission to access User with email "${authenticationUser.email}"`
+          message: `User with email "${authenticationUser.email}" does not have permission to access Photo with id "${photo.id}"`
         });
       }
     })
@@ -74,7 +73,7 @@ function sosialMediaAuthorization(req, res, next) {
       if (!sosmed) {
         return res.status(404).json({
           name: "Data not found",
-          message: `Sosial media with id "${id}" not found`
+          message: `Sosial media with id "${sosmedId}" not found`
         });
       }
       if (sosmed.userid === authenticationUser.id) {
@@ -82,7 +81,7 @@ function sosialMediaAuthorization(req, res, next) {
       } else {
         return res.status(403).json({
           name: "Authorization error",
-          message: `User with email "${authenticationUser.email}" does not have permission to access User with email "${authenticationUser.email}"`
+          message: `User with email "${authenticationUser.email}" does not have permission to access SocialMedia with id "${sosmed.id}"`
         });
       }
     })
@@ -92,19 +91,19 @@ function sosialMediaAuthorization(req, res, next) {
 }
  
 function commentAuthorization(req, res, next) {
-  const comentId = req.params.id;
+  const commentId = req.params.id;
   const authenticationUser = res.locals.user;
  
   Comment.findOne({
     where: {
-      id: comentId
+      id: commentId
     }
   })
     .then(comment => {
       if (!comment) {
         return res.status(404).json({
           name: "Data not found",
-          message: `Sosial media with id "${id}" not found`
+          message: `Comment with id "${commentId}" not found`
         });
       }
       if (comment.userid === authenticationUser.id) {
@@ -112,7 +111,7 @@ function commentAuthorization(req, res, next) {
       } else {
         return res.status(403).json({
           name: "Authorization error",
-          message: `User with email "${authenticationUser.email}" does not have permission to access User with email "${authenticationUser.email}"`
+          message: `User with email "${authenticationUser.email}" does not have permission to access Comment with id "${comment.id}"`
         });
       }
     })
