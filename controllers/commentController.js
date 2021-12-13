@@ -25,7 +25,9 @@ class CommentController {
     Comment.belongsTo(Photo, { foreignKey: 'photoid' })
     User.hasMany(Comment, { foreignKey: 'id' })
     Photo.hasMany(Comment, { foreignKey: 'id' })
+    var user = res.locals.user
     Comment.findAll({
+      where: { userid: user.id },
       include: [
         {
           model: Photo,
@@ -37,9 +39,15 @@ class CommentController {
         },
       ],
     }).then(result => {
-      res.status(201).json({
-        comment: result
-      });
+      if (result == "") {
+        res.status(200).json({
+            Message: "No comments found"
+        })
+    } else {
+        res.status(200).json({
+            comments: result
+        });
+    }
     }).catch((err => {
       res.status(500).json({
         message: err.errors[0].message
