@@ -23,7 +23,11 @@ class SosialMediaController {
   static getSosialMedia(req, res) {
     SocialMedia.belongsTo(User, { foreignKey: 'userid' })
     User.hasMany(SocialMedia, { foreignKey: 'id' })
+    var user = res.locals.user
     SocialMedia.findAll({
+      where: {
+        userid: user.id
+      },
       include: [{
         model: User,
         attributes: ['id', 'username', 'profile_image_url']
