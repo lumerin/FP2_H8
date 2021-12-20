@@ -23,12 +23,12 @@ module.exports = {
     }
   },
   production: {
-    username: process.env.PROD_DB_USERNAME,
-    password: process.env.PROD_DB_PASSWORD,
-    database: process.env.PROD_DB_NAME,
-    host: process.env.PROD_DB_HOSTNAME,
-    port: process.env.PROD_DB_PORT,
-    dialect: process.env.PROD_DB_DIALECT,
+    username: 'jarbwbnghovpkx',
+    password: 'ccca4f20002daab8af57c4c10539d78de8c91910dccb57bf71d75d041178ca31',
+    database: 'd82gdph18qhf0d',
+    host: 'ec2-52-204-41-121.compute-1.amazonaws.com',
+    port: 5432,
+    dialect: 'postgres',
     dialectOptions: {
       bigNumberStrings: true
     }
