@@ -18,7 +18,15 @@ module.exports = (sequelize, DataTypes) => {
   };
   Comment.init({
     userid: DataTypes.INTEGER,
-    photoid: DataTypes.INTEGER,
+    photoid: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isNumeric: {
+          args: true,
+          msg: "Photoid must be a number"
+        }
+      }
+    },
     comment: {
       type: DataTypes.TEXT,
       validate: {
